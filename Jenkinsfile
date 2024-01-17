@@ -1,9 +1,14 @@
-@Library("jhc-libs") _
+@Library("fortomcat") _
 
 pipeline {
     agent any
 
     stages {
+        stage('Code Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/vamshu1848/doctor-online'
+            }
+        }
         stage('Maven Build') {
             steps {
                 sh 'mvn clean package'
@@ -11,7 +16,7 @@ pipeline {
         }
         stage("Tomcat Dev Deploy"){
             steps{
-                tomcatDeploy("172.31.30.174","ec2-user","tomcat-dev","doctor-online.war")
+                tomcatdeploy("172.31.15.196", "ec2-user", "tomcat-deploy", "doctor-online.war" )
             }
         }
     }
